@@ -17,6 +17,8 @@
     //    messageInput.focus();
     //});
 
+    connection.start();
+
     var connectionStream = new signalR.HubConnection(`http://${document.location.host}/streaming`, { transport: transport });
 
     connectionStream.on("streamStarted", function () {

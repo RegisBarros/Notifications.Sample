@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Notifications.Sample.Web.Hubs;
+using StackExchange.Redis;
 
 namespace Notifications.Sample.Web
 {
@@ -22,7 +23,11 @@ namespace Notifications.Sample.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
+            services.AddSignalR()
+                .AddRedis(options => options.Factory = writer =>
+                {
+                    return ConnectionMultiplexer.Connect("localhost", writer); 
+                });
             services.AddMvc();
         }
 
